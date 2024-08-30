@@ -10,8 +10,6 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 
 const Nav = () => {
-  const customButtonClass = buttonVariants(); // This should return a string like "your-org-button org-red-button"
-
   return (
     <nav className="flex items-center justify-between p-4 h-[10vh]">
       <h1 className="text-3xl font-bold">
@@ -19,8 +17,8 @@ const Nav = () => {
       </h1>
       <ul className="flex items-center gap-4 font-bold">
         <SignedIn>
-          <Link href="/">Link 1</Link>
-          <Link href="/">Link 2</Link>
+          {/* <Link href="/">Link 1</Link>
+          <Link href="/">Link 2</Link> */}
 
           <UserButton />
         </SignedIn>

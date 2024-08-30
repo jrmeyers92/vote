@@ -13,8 +13,8 @@ const fontSans = FontSans({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 export const metadata: Metadata = {
-  title: "Starter",
-  description: "Starter",
+  title: "Vote",
+  description: "Learn and vote about issues that matter to you",
 };
 
 export default function RootLayout({

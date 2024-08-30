@@ -24,6 +24,7 @@ import { States } from "@/lib/StatesArray";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -50,18 +51,35 @@ const OnboardingForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      email: user?.primaryEmailAddress?.emailAddress || "",
+      firstName: "",
+      lastName: "",
+      email: "",
       birthYear: undefined,
       birthMonth: undefined,
       birthDay: undefined,
       gender: undefined,
-      city: undefined,
-      state: undefined,
+      city: "",
+      state: "",
       zipCode: undefined,
     },
   });
+
+  useEffect(() => {
+    if (isLoaded && user) {
+      form.reset({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.primaryEmailAddress?.emailAddress || "",
+        birthYear: undefined,
+        birthMonth: undefined,
+        birthDay: undefined,
+        gender: undefined,
+        city: "",
+        state: "",
+        zipCode: undefined,
+      });
+    }
+  }, [isLoaded, user, form]);
 
   if (!isLoaded) {
     return <div>Loading</div>;
@@ -85,7 +103,10 @@ const OnboardingForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 container"
+      >
         <div className="grid">
           <div className="flex w-full flex-col sm:flex-row sm:gap-4">
             <div className="w-1/2">
