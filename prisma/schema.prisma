@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  clerkId     String        @unique
+  email       String        @unique
+  firstName   String
+  lastName    String
+  birthYear   Int?
+  birthMonth  String?
+  birthDay    Int?
+  gender      String?
+  city        String
+  state       String
+  zipCode     Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  PollComment PollComment[]
+  PollVote    PollVote[]
+}
+
+model Poll {
+  id               Int           @id @default(autoincrement())
+  question         String
+  arguementFor     String
+  arguementAgainst String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  PollVote         PollVote[]
+  PollComment      PollComment[]
+}
+
+model PollVote {
+  id        Int      @id @default(autoincrement())
+  vote      Boolean
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  pollId    Int
+  Poll      Poll     @relation(fields: [pollId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PollComment {
+  id        Int      @id @default(autoincrement())
+  comment   String
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  pollId    Int
+  Poll      Poll     @relation(fields: [pollId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
